@@ -28,6 +28,6 @@ public class KakaoTokenResponseDTO {
     @JsonProperty("refresh_token_expires_in")
     private String refreshTokenExpiresIn;
 
-    @JsonProperty("spore")
+    @JsonProperty("scope")
     private String scope;
 }

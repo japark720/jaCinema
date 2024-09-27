@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.HashMap;
 
 @Getter
@@ -16,14 +15,8 @@ public class KakaoUserInfoResponseDTO {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("properties")
-    private HashMap<String, String> properties;
-
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
-
-    @JsonProperty("for_partner")
-    private Partner forPartner;
 
     @Getter
     @NoArgsConstructor
@@ -53,14 +46,5 @@ public class KakaoUserInfoResponseDTO {
             @JsonProperty("nickname")
             private String nickName;
         }
-    }
-
-    @Getter
-    @NoArgsConstructor
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Partner {
-
-        @JsonProperty("uuid")
-        private String uuid;
     }
 }

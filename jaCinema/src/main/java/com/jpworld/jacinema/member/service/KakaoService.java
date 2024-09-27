@@ -27,7 +27,7 @@ public class KakaoService {
     @Value("${spring.oauth.kakao.client-secret}")
     private String clientSecret;
 
-    public String getAccessTokenFromKakao(String code) {
+    public KakaoTokenResponseDTO getAccessTokenFromKakao(String code) {
         KakaoTokenResponseDTO kakaoTokenResponseDTO = WebClient.create(KAUTH_TOKEN_URL_HOST).post()
                 .uri(uriBuilder -> uriBuilder
                         .scheme("https")
@@ -45,7 +45,7 @@ public class KakaoService {
                         Mono.error(new RuntimeException("Internal Server error")))
                 .bodyToMono(KakaoTokenResponseDTO.class)
                 .block();
-        return kakaoTokenResponseDTO.getAccessToken();
+        return kakaoTokenResponseDTO;
     }
 
     public KakaoUserInfoResponseDTO getUserInfo(String accessToken) {
