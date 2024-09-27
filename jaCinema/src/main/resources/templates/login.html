@@ -5,11 +5,32 @@
     <title>Login</title>
 </head>
 <body>
-<div class="container" style="display: flex; justify-content: center; align-content: center; align-items: center; flex-direction: column; margin: 200px auto; ">
-    <h1>카카오 로그인</h1>
+<!--<div class="container" style="display: flex; justify-content: center; align-content: center; align-items: center; flex-direction: column; margin: 200px auto; ">-->
+<!--    <h1>카카오 로그인</h1>-->
+<!--    <a th:href="${kakaoLocation}">-->
+<!--        <img src="/images/kakao_login.png" style="width: 60px; height: 60px; margin: 0 10px;">-->
+<!--    </a>-->
+
+<!--    <h1>카카오 로그인</h1>-->
+<!--    <a th:href="${kakaoLocation}">-->
+<!--        <img src="/images/kakao_login.png" style="width: 60px; height: 60px; margin: 0 10px;">-->
+<!--    </a>-->
+<!--</div>-->
+
+<div style="display: flex; flex-direction: row; justify-content: center; margin-top: 100px">
     <a th:href="${kakaoLocation}">
-        <img src="/images/kakao_login.png" >
+        <img src="/images/kakao_login.png" style="width: 60px; height: 60px; margin: 0 10px;">
     </a>
+
+    <a th:href="${naverLocation}">
+        <img src="/images/naver_login.png" style="width: 60px; height: 60px; margin: 0 10px;">
+    </a>
+
+<!--    <a href="${kakaoLocation}">-->
+<!--        <img src="/images/kakao_login.png" style="width: 60px; height: 60px; margin: 0 10px;">-->
+<!--    </a>-->
 </div>
+
+
 </body>
 </html>

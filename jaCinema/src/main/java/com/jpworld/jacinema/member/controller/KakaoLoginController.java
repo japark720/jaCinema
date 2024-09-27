@@ -24,9 +24,6 @@ public class KakaoLoginController {
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws IOException {
         String accessToken = kakaoService.getAccessTokenFromKakao(code);
         KakaoUserInfoResponseDTO userInfo = kakaoService.getUserInfo(accessToken);
-
-        System.out.println("========= : " + userInfo.getKakaoAccount().getBirthYear());
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 }
