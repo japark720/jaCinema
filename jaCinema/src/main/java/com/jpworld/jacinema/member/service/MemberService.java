@@ -1,9 +1,9 @@
 package com.jpworld.jacinema.member.service;
 
 import com.jpworld.jacinema.member.domain.Member;
-import com.jpworld.jacinema.member.dto.KakaoResponseDTO;
-import com.jpworld.jacinema.member.dto.KakaoTokenResponseDTO;
-import com.jpworld.jacinema.member.dto.KakaoUserInfoResponseDTO;
+import com.jpworld.jacinema.member.kakaoDTO.KakaoResponseDTO;
+import com.jpworld.jacinema.member.kakaoDTO.KakaoTokenResponseDTO;
+import com.jpworld.jacinema.member.kakaoDTO.KakaoUserInfoResponseDTO;
 import com.jpworld.jacinema.member.repository.MemberRepository;
 import com.jpworld.jacinema.types.OAuthProvider;
 import com.jpworld.jacinema.types.Role;
@@ -41,5 +41,9 @@ public class MemberService {
                 .build();
 
         return memberRepository.save(member).getId();
+    }
+
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id).orElse(null);
     }
 }

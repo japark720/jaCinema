@@ -1,4 +1,4 @@
-package com.jpworld.jacinema.member.dto;
+package com.jpworld.jacinema.member.kakaoDTO;
 
 
 import lombok.Getter;

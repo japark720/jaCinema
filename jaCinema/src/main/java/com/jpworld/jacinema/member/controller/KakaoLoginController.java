@@ -2,18 +2,13 @@ package com.jpworld.jacinema.member.controller;
 
 
 import com.jpworld.jacinema.member.domain.Member;
-import com.jpworld.jacinema.member.dto.KakaoResponseDTO;
-import com.jpworld.jacinema.member.dto.KakaoTokenResponseDTO;
-import com.jpworld.jacinema.member.dto.KakaoUserInfoResponseDTO;
+import com.jpworld.jacinema.member.kakaoDTO.*;
 import com.jpworld.jacinema.member.service.KakaoService;
 import com.jpworld.jacinema.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -25,6 +20,12 @@ public class KakaoLoginController {
     private final KakaoService kakaoService;
     private final MemberService memberService;
 
+    /**
+     * 인가 코드 받기
+     * 토큰 받기
+     * 사용자 정보 가져오기
+     * @param code
+     */
     @GetMapping("/callback")
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws IOException {
         KakaoTokenResponseDTO kakaoTokenResponseDTO = kakaoService.getAccessTokenFromKakao(code);
@@ -33,6 +34,37 @@ public class KakaoLoginController {
         KakaoResponseDTO kakaoResponseDTO = new KakaoResponseDTO(kakaoTokenResponseDTO, userInfoDTO);
 
         Long member = memberService.findMemberOrAddMember(kakaoResponseDTO);
-        return new ResponseEntity<>(member, HttpStatus.OK);
+        Member findMember = memberService.findMemberById(member);
+        return new ResponseEntity<>(findMember, HttpStatus.OK);
+    }
+
+    /**
+     * 로그아웃
+     * @param accessToken
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestParam("accessToken")String accessToken) throws IOException {
+        KakaoLogoutDTO kakaoLogoutDTO = kakaoService.logout(accessToken);
+        return new ResponseEntity<>(kakaoLogoutDTO, HttpStatus.OK);
+    }
+
+    /**
+     * 연결 끊기
+     * @param accessToken
+     */
+    @PostMapping("/unlink")
+    public ResponseEntity<?> unlink(@RequestParam("accessToken")String accessToken) throws IOException {
+        KakaoLogoutDTO kakaoLogoutDTO = kakaoService.unlink(accessToken);
+        return new ResponseEntity<>(kakaoLogoutDTO, HttpStatus.OK);
+    }
+
+    /**
+     * 토큰 정보 보기
+     * @param accessToken
+     */
+    @GetMapping("/accessTokenInfo")     // 토큰 정보 보기
+    public ResponseEntity<?> accessTokenInfo(@RequestParam("accessToken")String accessToken) throws IOException {
+        KakaoAccessTokenInfoDTO kakaoAccessTokenInfoDTO = kakaoService.accessTokenInfo(accessToken);
+        return new ResponseEntity<>(kakaoAccessTokenInfoDTO, HttpStatus.OK);
     }
 }
