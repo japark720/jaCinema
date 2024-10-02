@@ -1,7 +1,7 @@
 package com.jpworld.jacinema.member.service;
 
 import com.jpworld.jacinema.member.domain.Member;
-import com.jpworld.jacinema.member.kakaoDTO.KakaoResponseDTO;
+import com.jpworld.jacinema.member.domain.MemberToken;
 import com.jpworld.jacinema.member.kakaoDTO.KakaoTokenResponseDTO;
 import com.jpworld.jacinema.member.kakaoDTO.KakaoUserInfoResponseDTO;
 import com.jpworld.jacinema.member.repository.MemberRepository;
@@ -16,28 +16,31 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Long findMemberOrAddMember(KakaoResponseDTO kakaoResponseDTO) {
-        return memberRepository.findByEmail(kakaoResponseDTO.getInfoResponse().getKakaoAccount().getEmail())
-                .map(Member::getId).orElseGet(() -> addMember(kakaoResponseDTO));
+    public Long findMemberOrAddMember(KakaoTokenResponseDTO token, KakaoUserInfoResponseDTO userInfo) {
+        return memberRepository.findByEmail(userInfo.getKakaoAccount().getEmail())
+                .map(Member::getId)
+                .orElseGet(() -> addMember(token, userInfo));
     }
 
-    private Long addMember(KakaoResponseDTO kakaoResponseDTO) {
+    private Long addMember(KakaoTokenResponseDTO token, KakaoUserInfoResponseDTO userInfo) {
+        KakaoUserInfoResponseDTO.KakaoAccount account = userInfo.getKakaoAccount();
 
-        KakaoUserInfoResponseDTO.KakaoAccount userInfoAccount = kakaoResponseDTO.getInfoResponse().getKakaoAccount();
-        KakaoTokenResponseDTO token = kakaoResponseDTO.getTokenResponse();
+        MemberToken memberToken = MemberToken.builder()
+                .accessToken(token.getAccessToken())
+                .expiresIn(token.getExpiresIn())
+                .refreshToken(token.getRefreshToken())
+                .refreshTokenExpiresIn(token.getRefreshTokenExpiresIn())
+                .build();
 
         Member member = Member.builder()
-                .email(userInfoAccount.getEmail())
-                .nickName(userInfoAccount.getProfile().getNickName())
-                .gender(userInfoAccount.getGender())
-                .birthYear(userInfoAccount.getBirthYear())
-                .phoneNumber(userInfoAccount.getPhoneNumber())
+                .email(account.getEmail())
+                .nickName(account.getProfile().getNickName())
+                .gender(account.getGender())
+                .birthYear(account.getBirthYear())
+                .phoneNumber(account.getPhoneNumber())
                 .oAuthProvider(OAuthProvider.KAKAO)
                 .role(Role.USER)
-                .accessToken(token.getAccessToken())
-                .refreshToken(token.getRefreshToken())
-                .expiresInd(token.getExpiresIn())
-                .refreshTokenExpiresIn(token.getRefreshTokenExpiresIn())
+                .memberToken(memberToken)
                 .build();
 
         return memberRepository.save(member).getId();

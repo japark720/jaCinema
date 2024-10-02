@@ -12,8 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Member extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
@@ -29,14 +28,13 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private String accessToken;
-    private String refreshToken;
-    private String expiresIn;
-    private String refreshTokenExpiresIn;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "member_token_id")
+    private MemberToken memberToken;
 
     @Builder
     public Member(String email, String nickName, String gender, String birthYear, String phoneNumber, OAuthProvider oAuthProvider,
-                  Role role, String accessToken, String refreshToken, String expiresInd, String refreshTokenExpiresIn) {
+                  Role role, MemberToken memberToken) {
         this.email = email;
         this.nickName = nickName;
         this.gender = gender;
@@ -44,9 +42,6 @@ public class Member extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
         this.oAuthProvider = oAuthProvider;
         this.role = role;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expiresIn = expiresInd;
-        this.refreshTokenExpiresIn = refreshTokenExpiresIn;
+        this.memberToken = memberToken;
     }
 }

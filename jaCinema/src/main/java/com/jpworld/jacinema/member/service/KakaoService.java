@@ -29,7 +29,8 @@ public class KakaoService {
     @Value("${spring.oauth.kakao.client-secret}")
     private String clientSecret;
 
-    public KakaoTokenResponseDTO getAccessTokenFromKakao(String code) {
+    // 토큰 받기
+    public KakaoTokenResponseDTO getKakaoAccessToken(String code) {
         KakaoTokenResponseDTO kakaoTokenResponseDTO = WebClient.create(KAUTH_TOKEN_URL_HOST)
                 .post()
                 .uri(uriBuilder -> uriBuilder
@@ -51,6 +52,7 @@ public class KakaoService {
         return kakaoTokenResponseDTO;
     }
 
+    // 사용자 정보 가져오기
     public KakaoUserInfoResponseDTO getUserInfo(String accessToken) {
         KakaoUserInfoResponseDTO kakaoUserInfoResponseDTO = WebClient.create(KAUTH_USER_URL_HOST)
                 .get()
@@ -68,6 +70,7 @@ public class KakaoService {
         return kakaoUserInfoResponseDTO;
     }
 
+    // 로그아웃
     public KakaoLogoutDTO logout(String accessToken) {
         KakaoLogoutDTO kakaoLogoutDTO = WebClient.create(KAUTH_USER_URL_HOST)
                 .post()
@@ -85,7 +88,7 @@ public class KakaoService {
         return kakaoLogoutDTO;
     }
 
-    // response가 logout과 동일해서 같이 사용..
+    // 카카오톡 연결 끊기 response가 logout과 동일해서 같이 사용..
     public KakaoLogoutDTO unlink(String accessToken) {
         KakaoLogoutDTO kakaoLogoutDTO = WebClient.create(KAUTH_USER_URL_HOST)
                 .post()
@@ -103,8 +106,8 @@ public class KakaoService {
         return kakaoLogoutDTO;
     }
 
+    // 토큰 정보 보기
     public KakaoAccessTokenInfoDTO accessTokenInfo(String accessToken) {
-        System.out.println("======================= : " + accessToken);
         KakaoAccessTokenInfoDTO kakaoAccessTokenInfoDTO = WebClient.create(KAUTH_USER_URL_HOST)
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -119,6 +122,26 @@ public class KakaoService {
                 .bodyToMono(KakaoAccessTokenInfoDTO.class)
                 .block();
         return kakaoAccessTokenInfoDTO;
+    }
 
+    // 토큰 갱신
+    public KakaoTokenResponseDTO refreshToken(String refreshToken) {
+        KakaoTokenResponseDTO kakaoTokenResponseDTO = WebClient.create()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme("https")
+                        .path("/oauth/token")
+                        .queryParam("grant_type", "refresh_token")
+                        .queryParam("cliênt_id", clientId)
+                        .queryParam("refresh_token", refreshToken)
+                        .queryParam("client_secret", clientSecret)
+                        .build(true))
+                .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new RuntimeException("InvalidParameter")))
+                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new RuntimeException("Internal Server Error")))
+                .bodyToMono(KakaoTokenResponseDTO.class)
+                .block();
+        return kakaoTokenResponseDTO;
     }
 }

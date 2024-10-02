@@ -28,12 +28,11 @@ public class KakaoLoginController {
      */
     @GetMapping("/callback")
     public ResponseEntity<?> callback(@RequestParam("code") String code) throws IOException {
-        KakaoTokenResponseDTO kakaoTokenResponseDTO = kakaoService.getAccessTokenFromKakao(code);
+        KakaoTokenResponseDTO kakaoTokenResponseDTO = kakaoService.getKakaoAccessToken(code);
         String accessToken = kakaoTokenResponseDTO.getAccessToken();
         KakaoUserInfoResponseDTO userInfoDTO = kakaoService.getUserInfo(accessToken);
-        KakaoResponseDTO kakaoResponseDTO = new KakaoResponseDTO(kakaoTokenResponseDTO, userInfoDTO);
 
-        Long member = memberService.findMemberOrAddMember(kakaoResponseDTO);
+        Long member = memberService.findMemberOrAddMember(kakaoTokenResponseDTO, userInfoDTO);
         Member findMember = memberService.findMemberById(member);
         return new ResponseEntity<>(findMember, HttpStatus.OK);
     }
@@ -62,9 +61,20 @@ public class KakaoLoginController {
      * 토큰 정보 보기
      * @param accessToken
      */
-    @GetMapping("/accessTokenInfo")     // 토큰 정보 보기
+    @GetMapping("/accessTokenInfo")
     public ResponseEntity<?> accessTokenInfo(@RequestParam("accessToken")String accessToken) throws IOException {
         KakaoAccessTokenInfoDTO kakaoAccessTokenInfoDTO = kakaoService.accessTokenInfo(accessToken);
         return new ResponseEntity<>(kakaoAccessTokenInfoDTO, HttpStatus.OK);
+    }
+
+    /**
+     * 토큰 갱신하기
+     * @param refreshToken
+     */
+    @PostMapping("/oauth/token")
+    public ResponseEntity<?> oauthToken(@RequestParam("refreshToken")String refreshToken) throws IOException {
+        KakaoTokenResponseDTO kakaoTokenResponseDTO = kakaoService.refreshToken(refreshToken);
+        // TODO 토큰 갱신되면 해당 유저의 정보를 DB에서 업데이트 해줘야 함.
+        return new ResponseEntity<>(kakaoTokenResponseDTO, HttpStatus.OK);
     }
 }
