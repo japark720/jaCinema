@@ -1,6 +1,5 @@
 package com.jpworld.jacinema.member.domain;
 
-import com.jpworld.jacinema.member.kakaoDTO.KakaoTokenResponseDTO;
 import com.jpworld.jacinema.types.OAuthProvider;
 import com.jpworld.jacinema.types.Role;
 import jakarta.persistence.*;
