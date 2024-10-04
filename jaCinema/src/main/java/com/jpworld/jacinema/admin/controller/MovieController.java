@@ -2,10 +2,13 @@ package com.jpworld.jacinema.admin.controller;
 
 import com.jpworld.jacinema.admin.domain.Movie;
 import com.jpworld.jacinema.admin.dto.MovieRequest;
+import com.jpworld.jacinema.admin.dto.MovieResponse;
 import com.jpworld.jacinema.admin.service.MovieService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,13 +32,14 @@ public class MovieController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addMovie(@RequestBody MovieRequest movieRequest) {
-        Movie movie = Movie.builder()
-                .movieRequest(movieRequest)
-                .build();
+    public ResponseEntity<?> addMovie(@Valid @RequestBody MovieRequest movieRequest, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            MovieResponse errorResponse = movieService.validationError(bindingResult);
+            return new ResponseEntity<>(errorResponse, HttpStatus.OK);
+        }
 
-        Movie saveMovie = movieService.addMovie(movie);
-        return new ResponseEntity<>(saveMovie, HttpStatus.OK);
+        MovieResponse successResponse = movieService.addMovie(movieRequest);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     @PostMapping("/modify")
