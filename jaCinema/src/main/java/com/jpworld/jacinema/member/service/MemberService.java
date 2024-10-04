@@ -9,6 +9,9 @@ import com.jpworld.jacinema.types.OAuthProvider;
 import com.jpworld.jacinema.types.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +51,19 @@ public class MemberService {
 
     public Member findMemberById(Long id) {
         return memberRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public Member updateMemberToken(Long id, KakaoTokenResponseDTO token) {
+
+        final Member member = memberRepository.findById(id).orElse(null);
+
+        MemberToken memberToken = MemberToken.builder()
+                 .accessToken(token.getAccessToken())
+                 .expiresIn(token.getExpiresIn())
+                 .refreshToken(token.getRefreshToken())
+                 .refreshTokenExpiresIn(token.getRefreshTokenExpiresIn())
+                 .build();
+         return member.updateMemberToken(memberToken);
     }
 }

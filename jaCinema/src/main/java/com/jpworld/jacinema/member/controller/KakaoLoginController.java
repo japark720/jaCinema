@@ -72,9 +72,9 @@ public class KakaoLoginController {
      * @param refreshToken
      */
     @PostMapping("/oauth/token")
-    public ResponseEntity<?> oauthToken(@RequestParam("refreshToken")String refreshToken) throws IOException {
+    public ResponseEntity<?> oauthToken(@RequestParam("id") Long memberId, @RequestParam("refresh_token")String refreshToken) throws IOException {
         KakaoTokenResponseDTO kakaoTokenResponseDTO = kakaoService.refreshToken(refreshToken);
-        // TODO 토큰 갱신되면 해당 유저의 정보를 DB에서 업데이트 해줘야 함.
+        memberService.updateMemberToken(memberId, kakaoTokenResponseDTO);
         return new ResponseEntity<>(kakaoTokenResponseDTO, HttpStatus.OK);
     }
 }

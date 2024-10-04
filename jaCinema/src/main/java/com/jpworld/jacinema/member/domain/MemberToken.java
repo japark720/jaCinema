@@ -27,4 +27,11 @@ public class MemberToken extends BaseTimeEntity {
         this.refreshToken = refreshToken;
         this.refreshTokenExpiresIn = refreshTokenExpiresIn;
     }
+
+    public void updateToken(MemberToken memberToken) {
+        this.accessToken = memberToken.getAccessToken();
+        this.expiresIn = memberToken.getExpiresIn();
+        this.refreshToken = memberToken.getRefreshToken() != null ? memberToken.getRefreshToken() : this.refreshToken;
+        this.refreshTokenExpiresIn = memberToken.getRefreshTokenExpiresIn() != null ? memberToken.getRefreshTokenExpiresIn() : this.refreshTokenExpiresIn;
+    }
 }

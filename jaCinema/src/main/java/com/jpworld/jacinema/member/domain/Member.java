@@ -1,5 +1,6 @@
 package com.jpworld.jacinema.member.domain;
 
+import com.jpworld.jacinema.member.kakaoDTO.KakaoTokenResponseDTO;
 import com.jpworld.jacinema.types.OAuthProvider;
 import com.jpworld.jacinema.types.Role;
 import jakarta.persistence.*;
@@ -43,5 +44,12 @@ public class Member extends BaseTimeEntity {
         this.oAuthProvider = oAuthProvider;
         this.role = role;
         this.memberToken = memberToken;
+    }
+
+    public Member updateMemberToken(MemberToken memberToken) {
+        if(this.memberToken != null){
+            this.memberToken.updateToken(memberToken);
+        }
+        return this;
     }
 }

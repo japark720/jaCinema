@@ -126,13 +126,13 @@ public class KakaoService {
 
     // 토큰 갱신
     public KakaoTokenResponseDTO refreshToken(String refreshToken) {
-        KakaoTokenResponseDTO kakaoTokenResponseDTO = WebClient.create()
+        KakaoTokenResponseDTO kakaoTokenResponseDTO = WebClient.create(KAUTH_TOKEN_URL_HOST)
                 .post()
                 .uri(uriBuilder -> uriBuilder
                         .scheme("https")
                         .path("/oauth/token")
                         .queryParam("grant_type", "refresh_token")
-                        .queryParam("cliênt_id", clientId)
+                        .queryParam("client_id", clientId)
                         .queryParam("refresh_token", refreshToken)
                         .queryParam("client_secret", clientSecret)
                         .build(true))
