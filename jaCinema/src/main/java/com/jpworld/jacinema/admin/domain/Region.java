@@ -2,6 +2,7 @@ package com.jpworld.jacinema.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jpworld.jacinema.admin.dto.RegionRequest;
+import com.jpworld.jacinema.member.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @RequiredArgsConstructor
-public class Region {
+public class Region extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "region_id")

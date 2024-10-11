@@ -1,10 +1,8 @@
 package com.jpworld.jacinema.admin.service;
 
 import com.jpworld.jacinema.admin.domain.Cinema;
-import com.jpworld.jacinema.admin.domain.Region;
 import com.jpworld.jacinema.admin.dto.CinemaRequest;
 import com.jpworld.jacinema.admin.repository.CinemaRepository;
-import com.jpworld.jacinema.admin.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import java.util.List;
 public class CinemaService {
 
     private final CinemaRepository cinemaRepository;
-    private final RegionRepository regionRepository;
 
     public List<Cinema> findAll() {
         return cinemaRepository.findAll();

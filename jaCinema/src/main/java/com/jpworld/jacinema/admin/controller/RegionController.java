@@ -1,6 +1,5 @@
 package com.jpworld.jacinema.admin.controller;
 
-import com.jpworld.jacinema.admin.domain.Region;
 import com.jpworld.jacinema.admin.dto.RegionRequest;
 import com.jpworld.jacinema.admin.dto.RegionResponse;
 import com.jpworld.jacinema.admin.service.RegionService;
@@ -20,13 +19,13 @@ public class RegionController {
 
     @GetMapping("/list")
     public ResponseEntity<?> list() {
-        List<RegionResponse> regions = regionService.findAllParentRegions();
+        RegionResponse regions = regionService.findAll();
         return new ResponseEntity<>(regions, HttpStatus.OK);
     }
 
     @PostMapping("/add/region")
     public ResponseEntity<?> add(@RequestBody RegionRequest regionRequest) {
-        RegionResponse region = regionService.createRegion(regionRequest);
+        RegionResponse region = regionService.addRegion(regionRequest);
         return new ResponseEntity<>(region, HttpStatus.OK);
     }
 }

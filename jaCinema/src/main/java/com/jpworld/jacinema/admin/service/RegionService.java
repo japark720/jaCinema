@@ -1,8 +1,11 @@
 package com.jpworld.jacinema.admin.service;
 
+import com.jpworld.jacinema.admin.AdminResultCode;
+import com.jpworld.jacinema.admin.AdminResultMessage;
 import com.jpworld.jacinema.admin.domain.Region;
 import com.jpworld.jacinema.admin.dto.RegionRequest;
 import com.jpworld.jacinema.admin.dto.RegionResponse;
+import com.jpworld.jacinema.admin.dto.RegionResponseDto;
 import com.jpworld.jacinema.admin.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,48 +19,45 @@ public class RegionService {
 
     private final RegionRepository regionRepository;
 
-    public List<RegionResponse> findAll() {
+    public RegionResponse findAll() {
         List<Region> regions = regionRepository.findAll();
 
-        return regions.stream()
-                .map(RegionResponse::from)
-                .collect(Collectors.toList());
-    }
-
-    public RegionResponse findById(Long id) {
-        Region region = regionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Region not fount with id: " + id));
-
-        return RegionResponse.from(region);
-    }
-
-    public List<RegionResponse> findAllParentRegions() {
-        List<Region> regions = regionRepository.findAll();
-
-        // 부모 지역만 필터링
-        List<Region> parentRegions = regions.stream()
-                .filter(region -> region.getParent() == null) // 부모가 없는 지역만 포함
+        List<RegionResponseDto> list = regions.stream()
+                .filter(region -> region.getParent() == null)
+                .map(RegionResponseDto::fromParentEntity)
                 .collect(Collectors.toList());
 
-        return parentRegions.stream()
-                .map(RegionResponse::from)
-                .collect(Collectors.toList());
-    }
-
-    public RegionResponse createRegion(RegionRequest regionRequest) {
-        Region parentRegion = null;
-
-        if (regionRequest.getParentId() != null) {
-            parentRegion = regionRepository.findById(regionRequest.getParentId())
-                    .orElseThrow(() -> new IllegalArgumentException("Parent region not found"));
-        }
-
-        Region newRegion = Region.builder()
-                .regionRequest(regionRequest)
-                .parent(parentRegion)
+        return RegionResponse.builder()
+                .regions(list)
+                .message(AdminResultMessage.SUCCESS)
+                .resultCode(AdminResultCode.SUCCESS_CODE)
                 .build();
 
-        Region saveRegion = regionRepository.save(newRegion);
-        return RegionResponse.from(saveRegion);
+    }
+
+    public RegionResponse addRegion(RegionRequest regionRequest) {
+        Region parent = null;
+        if (regionRequest.getParentId() != null) {
+            // 부모 Region이 있으면 조회해서 설정
+            parent = regionRepository.findById(regionRequest.getParentId())
+                    .orElseThrow(() -> new IllegalArgumentException("parent region not found"));
+        }
+
+        Region addRegion = Region.builder()
+                .regionRequest(regionRequest)
+                .parent(parent)     // 부모 설정
+                .build();
+
+        // children 추가
+        if (parent != null) {
+            parent.addChildren(addRegion);
+        }
+
+        regionRepository.save(addRegion);
+
+        return RegionResponse.builder()
+                .message(AdminResultMessage.SUCCESS)
+                .resultCode(AdminResultCode.SUCCESS_CODE)
+                .build();
     }
 }

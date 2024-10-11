@@ -1,34 +1,19 @@
 package com.jpworld.jacinema.admin.dto;
 
-import com.jpworld.jacinema.admin.domain.Region;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Setter
 @Getter
-@RequiredArgsConstructor
+@Builder
 public class RegionResponse {
+    private String message;
+    private String resultCode;
 
-    private Long id;
-    private String name;
-    private List<RegionResponse> children;
-
-    public RegionResponse(Long id, String name, List<RegionResponse> children) {
-        this.id = id;
-        this.name = name;
-        this.children = children != null ? children : new ArrayList<>();
-    }
-
-    public static RegionResponse from(Region region) {
-        List<RegionResponse> childResponses = region.getChildren().stream()
-                .map(child -> new RegionResponse(child.getId(), child.getName(), null))
-                .collect(Collectors.toList());
-
-        return new RegionResponse(region.getId(), region.getName(), childResponses);
-    }
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<RegionResponseDto> regions;
 }
-
