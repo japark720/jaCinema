@@ -25,11 +25,7 @@ public class CinemaController {
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody CinemaRequest cinemaRequest) {
-        Cinema cinema = Cinema.builder()
-                .cinemaRequest(cinemaRequest)
-                .build();
-
-        Cinema saveCinema = cinemaService.save(cinema);
+        Cinema saveCinema = cinemaService.save(cinemaRequest);
         return new ResponseEntity<>(saveCinema, HttpStatus.OK);
     }
 

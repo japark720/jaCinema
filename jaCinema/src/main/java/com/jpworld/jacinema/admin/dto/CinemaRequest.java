@@ -1,5 +1,6 @@
 package com.jpworld.jacinema.admin.dto;
 
+import com.jpworld.jacinema.admin.domain.Region;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,6 @@ public class CinemaRequest {
     private String cinemaName;
     private String address;
     private String detailAddress;
+
+    private Region region;
 }
