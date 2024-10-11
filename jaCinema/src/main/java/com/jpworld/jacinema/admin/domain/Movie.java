@@ -34,7 +34,7 @@ public class Movie extends BaseTimeEntity {
 
     private String actors;
 
-    private String createName;
+    private String writer;
 
     @Builder
     public Movie(MovieRequest movieRequest) {
@@ -45,17 +45,28 @@ public class Movie extends BaseTimeEntity {
         this.ageLimit = movieRequest.getAgeLimit();
         this.director = movieRequest.getDirector();
         this.actors = movieRequest.getActors();
-        this.createName = movieRequest.getCreateName();
+        this.writer = movieRequest.getWriter();
     }
 
     public Movie updateMovie(MovieRequest movieRequest) {
-        this.title = movieRequest.getTitle();
-        this.genre = movieRequest.getGenre();
-        this.country = movieRequest.getCountry();
-        this.ageLimit = movieRequest.getAgeLimit();
-        this.director = movieRequest.getDirector();
-        this.actors = movieRequest.getActors();
-
+        if (movieRequest.getTitle() != null) {
+            this.title = movieRequest.getTitle();
+        }
+        if (movieRequest.getGenre() != null) {
+            this.genre = movieRequest.getGenre();
+        }
+        if (movieRequest.getCountry() != null) {
+            this.country = movieRequest.getCountry();
+        }
+        if (movieRequest.getAgeLimit() != null) {
+            this.ageLimit = movieRequest.getAgeLimit();
+        }
+        if (movieRequest.getDirector() != null) {
+            this.director = movieRequest.getDirector();
+        }
+        if (movieRequest.getActors() != null) {
+            this.actors = movieRequest.getActors();
+        }
         return this;
     }
 }

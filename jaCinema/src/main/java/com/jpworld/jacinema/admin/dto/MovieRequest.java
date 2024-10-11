@@ -32,6 +32,6 @@ public class MovieRequest {
     @NotNull(message = AdminResultMessage.MOVIE_ACTORS)
     private String actors;
 
-    @NotNull(message = AdminResultMessage.MOVIE_CREATE_NAME)
-    private String createName;
+    @NotNull(message = AdminResultMessage.MOVIE_WRITER)
+    private String writer;
 }
