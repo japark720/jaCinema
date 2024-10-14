@@ -22,6 +22,15 @@ public class AdminResultMessage {
             MOVIE_WRITER
     );
 
+    public static final String CINEMA_NAME_REQUIRED = "극장 이름을 입력해 주세요.";
+    public static final String CINEMA_ADDRESS_REQUIRED = "극장 주소를 입력해 주세요.";
+    public static final String CINEMA_REGION_REQUIRED = "극장 지역을 입력해 주세요.";
+
+    public static final List<String> CINEMA_REQUIRED_LIST = Arrays.asList(
+            CINEMA_NAME_REQUIRED,
+            CINEMA_ADDRESS_REQUIRED,
+            CINEMA_REGION_REQUIRED
+    );
 
     public static final String SUCCESS = "success";
     public static final String FAIL = "fail";
