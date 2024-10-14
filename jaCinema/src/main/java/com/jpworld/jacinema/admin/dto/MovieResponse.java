@@ -16,4 +16,7 @@ public class MovieResponse {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<MovieResponseDto> movies;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private MovieResponseDto movie;
 }

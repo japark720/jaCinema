@@ -34,6 +34,12 @@ public class MovieController {
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<?> findMovie(@RequestParam("id") Long movieId) {
+        MovieResponse findMovie = movieService.findMovieId(movieId);
+        return new ResponseEntity<>(findMovie, HttpStatus.OK);
+    }
+
     @PostMapping("/update")
     public ResponseEntity<?> updateMovie(@RequestBody MovieRequest movieRequest) {
         MovieResponse findMovie = movieService.updateMovie(movieRequest);

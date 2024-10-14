@@ -43,10 +43,6 @@ public class MovieService {
                 .build();
     }
 
-    public Optional<Movie> findByMovieId(Long movieId) {
-        return movieRepository.findById(movieId);
-    }
-
     public MovieResponse addMovie(MovieRequest movieRequest) {
         movieRepository.save(Movie.builder()
                 .movieRequest(movieRequest)
@@ -58,8 +54,25 @@ public class MovieService {
                 .build();
     }
 
+    public MovieResponse findMovieId(Long movieId) {
+        Optional<Movie> findMovie = movieRepository.findById(movieId);
+
+        if(findMovie.isPresent()) {
+            Optional<MovieResponseDto> movieResponseDto = findMovie.map(MovieResponseDto::fromEntity);
+            return MovieResponse.builder()
+                    .movie(movieResponseDto.get())
+                    .message(AdminResultMessage.SUCCESS)
+                    .resultCode(AdminResultCode.SUCCESS_CODE)
+                    .build();
+        }
+        return MovieResponse.builder()
+                .message(AdminResultMessage.NOT_FOUND)
+                .resultCode(AdminResultCode.NOT_FOUND_CODE)
+                .build();
+    }
+
     public MovieResponse updateMovie(MovieRequest movieRequest) {
-        Optional<Movie> findMovie = findByMovieId(movieRequest.getMovieId());
+        Optional<Movie> findMovie = movieRepository.findById(movieRequest.getMovieId());
 
         if (findMovie.isEmpty()) {
             return MovieResponse.builder()
