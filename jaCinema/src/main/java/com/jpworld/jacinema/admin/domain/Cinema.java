@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
 @Entity
 @Getter
 @RequiredArgsConstructor
@@ -33,9 +36,19 @@ public class Cinema extends BaseTimeEntity {
     }
 
     public Cinema updateCinema(CinemaRequest cinemaRequest) {
-        this.cinemaName = cinemaRequest.getCinemaName();
-        this.address = cinemaRequest.getAddress();
-        this.detailAddress = cinemaRequest.getDetailAddress();
+        if(cinemaRequest.getCinemaName() != null) {
+            this.cinemaName = cinemaRequest.getCinemaName();
+        }
+        if(cinemaRequest.getAddress() != null) {
+            this.address = cinemaRequest.getAddress();
+        }
+        if(cinemaRequest.getDetailAddress() != null) {
+            this.detailAddress = cinemaRequest.getDetailAddress();
+        }
+        if(cinemaRequest.getRegion() != null) {
+            this.region = cinemaRequest.getRegion();
+        }
         return this;
     }
+
 }
