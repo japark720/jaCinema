@@ -23,9 +23,15 @@ public class RegionController {
         return new ResponseEntity<>(regions, HttpStatus.OK);
     }
 
-    @PostMapping("/add/region")
+    @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody RegionRequest regionRequest) {
         RegionResponse region = regionService.addRegion(regionRequest);
+        return new ResponseEntity<>(region, HttpStatus.OK);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<?> find(@RequestParam("id") Long id) {
+        RegionResponse region = regionService.findById(id);
         return new ResponseEntity<>(region, HttpStatus.OK);
     }
 }

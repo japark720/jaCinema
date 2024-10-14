@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,23 @@ public class RegionService {
                 .resultCode(AdminResultCode.SUCCESS_CODE)
                 .build();
 
+    }
+
+    public RegionResponse findById(Long id) {
+        Optional<Region> findRegion = regionRepository.findById(id);
+
+        if (findRegion.isPresent()) {
+            Optional<RegionResponseDto> regionResponseDto = findRegion.map(RegionResponseDto::fromEntity);
+            return RegionResponse.builder()
+                    .region(regionResponseDto.get())
+                    .message(AdminResultMessage.SUCCESS)
+                    .resultCode(AdminResultCode.SUCCESS_CODE)
+                    .build();
+        }
+        return RegionResponse.builder()
+                .message(AdminResultMessage.NOT_FOUND)
+                .resultCode(AdminResultCode.NOT_FOUND_CODE)
+                .build();
     }
 
     public RegionResponse addRegion(RegionRequest regionRequest) {
