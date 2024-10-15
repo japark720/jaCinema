@@ -7,9 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Map;
-import java.util.function.Consumer;
-
 @Entity
 @Getter
 @RequiredArgsConstructor
@@ -50,5 +47,4 @@ public class Cinema extends BaseTimeEntity {
         }
         return this;
     }
-
 }

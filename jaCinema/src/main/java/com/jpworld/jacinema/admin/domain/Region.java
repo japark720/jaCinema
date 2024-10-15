@@ -27,7 +27,7 @@ public class Region extends BaseTimeEntity {
     @JsonIgnore // parent와 children 필드가 서로를 참조하고 있으므로, JSON으로 직렬화 할 때 서로를 계속 참조하여 무한호출하는 문제 발생
     private Region parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Region> children = new ArrayList<>();
 
     @Builder
@@ -44,5 +44,4 @@ public class Region extends BaseTimeEntity {
     public void setParent(Region parent) {
         this.parent = parent;
     }
-
 }

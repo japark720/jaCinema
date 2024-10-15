@@ -1,6 +1,5 @@
 package com.jpworld.jacinema.admin.controller;
 
-import com.jpworld.jacinema.admin.domain.Cinema;
 import com.jpworld.jacinema.admin.dto.CinemaRequest;
 import com.jpworld.jacinema.admin.dto.CinemaResponse;
 import com.jpworld.jacinema.admin.service.CinemaService;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +40,7 @@ public class CinemaController {
         return new ResponseEntity<>(findCinema, HttpStatus.OK);
     }
 
-    @PostMapping("/modify")
+    @PostMapping("/update")
     public ResponseEntity<?> updateCinema(@RequestBody CinemaRequest cinemaRequest) {
         CinemaResponse findCinema = cinemaService.updateCinema(cinemaRequest);
         return new ResponseEntity<>(findCinema, HttpStatus.OK);
