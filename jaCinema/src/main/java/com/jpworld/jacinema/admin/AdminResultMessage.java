@@ -43,6 +43,14 @@ public class AdminResultMessage {
             THEATER_MOVIE_REQUIRED
     );
 
+    public static final String THEATER_TIME_TIME = "상영시간을 입력해 주세요.";
+    public static final String THEATER_TIME_THEATER_ID = "상영관 아이디를 입력해 주세요.";
+
+    public static final List<String> THEATER_TIME_REQUIRED_LIST = Arrays.asList(
+            THEATER_TIME_TIME,
+            THEATER_TIME_THEATER_ID
+    );
+
     public static final String SUCCESS = "success";
     public static final String FAIL = "fail";
     public static final String NOT_FOUND = "notFound";

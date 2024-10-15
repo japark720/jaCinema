@@ -1,7 +1,5 @@
 package com.jpworld.jacinema.admin.dto;
 
-import com.jpworld.jacinema.admin.domain.Cinema;
-import com.jpworld.jacinema.admin.domain.Movie;
 import com.jpworld.jacinema.admin.domain.Theater;
 import lombok.Builder;
 import lombok.Getter;

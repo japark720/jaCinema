@@ -1,6 +1,5 @@
 package com.jpworld.jacinema.admin.domain;
 
-import com.jpworld.jacinema.admin.dto.TheaterRequest;
 import com.jpworld.jacinema.member.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
