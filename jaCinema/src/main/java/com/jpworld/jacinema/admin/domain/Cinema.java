@@ -20,7 +20,7 @@ public class Cinema extends BaseTimeEntity {
     private String address;
     private String detailAddress;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     private Region region;
 
