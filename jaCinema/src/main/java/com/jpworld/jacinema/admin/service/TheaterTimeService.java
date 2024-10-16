@@ -53,6 +53,51 @@ public class TheaterTimeService {
                 .resultCode(AdminResultCode.SUCCESS_CODE)
                 .build();
     }
+    public TheaterTimeResponse updateTheaterTime(TheaterTimeUpdateRequest theaterTimeUpdateRequest) {
+        Long theaterTimeId = theaterTimeUpdateRequest.getTheaterTimeId();
+        if (theaterTimeId == null) {
+            throw new EntityNotFountException(AdminResultMessage.NOT_FOUND_THEATER_TIME_ID,
+                    AdminResultCode.NOT_FOUND_ID_CODE);
+        }
+
+        TheaterTime theaterTime = theaterTimeRepository.findById(theaterTimeId)
+                .orElseThrow(() -> new EntityNotFountException(AdminResultMessage.NOT_FOUND_THEATER_TIME_ID,
+                        AdminResultCode.NOT_FOUND_ID_CODE));
+
+        String time = theaterTimeUpdateRequest.getTime();
+
+        Theater theater = Optional.ofNullable(theaterTimeUpdateRequest.getTheaterId())
+                .map(id -> theaterRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFountException(AdminResultMessage.NOT_FOUND_THEATER_ID,
+                                AdminResultCode.NOT_FOUND_ID_CODE)))
+                .orElse(null);
+
+        theaterTime.updateTheaterTime(time, theater);
+        theaterTimeRepository.save(theaterTime);
+
+        return TheaterTimeResponse.builder()
+                .message(AdminResultMessage.SUCCESS)
+                .resultCode(AdminResultCode.SUCCESS_CODE)
+                .build();
+    }
+
+    public TheaterTimeResponse deleteTheaterTime(TheaterTimeDeleteRequest theaterTimeDeleteRequest) {
+        Long theaterTimeId = theaterTimeDeleteRequest.getTheaterTimeId();
+
+        if(theaterTimeId == null) {
+            throw new EntityNotFountException(AdminResultMessage.NOT_FOUND_THEATER_TIME_ID, AdminResultCode.NOT_FOUND_ID_CODE);
+        }
+
+        if(theaterTimeRepository.existsById(theaterTimeId)) {
+            theaterTimeRepository.deleteById(theaterTimeId);
+            return TheaterTimeResponse.builder()
+                    .message(AdminResultMessage.SUCCESS)
+                    .resultCode(AdminResultCode.SUCCESS_CODE)
+                    .build();
+        } else {
+            throw new EntityNotFountException(AdminResultMessage.NOT_FOUND_THEATER_TIME_ID, AdminResultCode.NOT_FOUND_ID_CODE);
+        }
+    }
 
     public TheaterTimeResponse validationError(BindingResult bindingResult) {
         String errMsg = bindingResult.getFieldError().getDefaultMessage();
@@ -64,6 +109,4 @@ public class TheaterTimeService {
                 .resultCode(code)
                 .build();
     }
-
-
 }

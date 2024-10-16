@@ -45,6 +45,7 @@ public class AdminResultMessage {
 
     public static final String THEATER_TIME_TIME = "상영시간을 입력해 주세요.";
     public static final String THEATER_TIME_THEATER_ID = "상영관 아이디를 입력해 주세요.";
+    public static final String THEATER_TIME_ID = "상영시간 아이디를 입력해 주세요.";
 
     public static final List<String> THEATER_TIME_REQUIRED_LIST = Arrays.asList(
             THEATER_TIME_TIME,
@@ -59,5 +60,6 @@ public class AdminResultMessage {
     public static final String NOT_FOUND_CINEMA_ID = "not found cinemaId";
 
     public static final String NOT_FOUND_THEATER_ID= "not found theaterId";
+    public static final String NOT_FOUND_THEATER_TIME_ID = "not found theaterTime id";
 
  }

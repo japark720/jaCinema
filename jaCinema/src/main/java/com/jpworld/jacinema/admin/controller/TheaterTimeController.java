@@ -1,7 +1,7 @@
 package com.jpworld.jacinema.admin.controller;
 
-import com.jpworld.jacinema.admin.dto.TheaterTimeRequest;
-import com.jpworld.jacinema.admin.dto.TheaterTimeResponse;
+import com.jpworld.jacinema.admin.domain.Theater;
+import com.jpworld.jacinema.admin.dto.*;
 import com.jpworld.jacinema.admin.service.TheaterTimeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +35,17 @@ public class TheaterTimeController {
 
         TheaterTimeResponse addTheaterTime = theaterTimeService.addTheaterTime(theaterTimeRequest);
         return new ResponseEntity<>(addTheaterTime, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<TheaterTimeResponse> updateTheaterTime(@RequestBody TheaterTimeUpdateRequest theaterTimeUpdateRequest) {
+        TheaterTimeResponse theaterTimeResponse = theaterTimeService.updateTheaterTime(theaterTimeUpdateRequest);
+        return new ResponseEntity<>(theaterTimeResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<TheaterTimeResponse> deleteTheaterTime(@RequestBody TheaterTimeDeleteRequest theaterTimeDeleteRequest) {
+        TheaterTimeResponse theaterTimeResponse = theaterTimeService.deleteTheaterTime(theaterTimeDeleteRequest);
+        return new ResponseEntity<>(theaterTimeResponse, HttpStatus.OK);
     }
 }
