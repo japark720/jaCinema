@@ -4,6 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AdminResultMessage {
+
+    public static final String SUCCESS = "success";
+    public static final String FAIL = "fail";
+    public static final String NOT_FOUND = "notFound";
+
+    // MOVIE
     public static final String MOVIE_TITLE_REQUIRED = "영화 제목을 입력해 주세요.";
     public static final String MOVIE_GENRE_REQUIRED = "영화 장르를 입력해 주세요.";
     public static final String MOVIE_COUNTRY_REQUIRED = "영화 국가를 입력해 주세요.";
@@ -22,6 +28,7 @@ public class AdminResultMessage {
             MOVIE_WRITER
     );
 
+    // CINEMA
     public static final String CINEMA_NAME_REQUIRED = "극장 이름을 입력해 주세요.";
     public static final String CINEMA_ADDRESS_REQUIRED = "극장 주소를 입력해 주세요.";
     public static final String CINEMA_REGION_REQUIRED = "극장 지역을 입력해 주세요.";
@@ -32,6 +39,7 @@ public class AdminResultMessage {
             CINEMA_REGION_REQUIRED
     );
 
+    // THEATER
     public static final String THEATER_ID_REQUIRED = "상영관 아이디를 입력해 주세요.";
     public static final String THEATER_NAME_REQUIRED = "상영관 이름을 입력해 주세요.";
     public static final String THEATER_CINEMA_REQUIRED = "영화 아이디를 입력해 주세요.";
@@ -43,6 +51,7 @@ public class AdminResultMessage {
             THEATER_MOVIE_REQUIRED
     );
 
+    // THEATER_TIME
     public static final String THEATER_TIME_TIME = "상영시간을 입력해 주세요.";
     public static final String THEATER_TIME_THEATER_ID = "상영관 아이디를 입력해 주세요.";
     public static final String THEATER_TIME_ID = "상영시간 아이디를 입력해 주세요.";
@@ -52,14 +61,21 @@ public class AdminResultMessage {
             THEATER_TIME_THEATER_ID
     );
 
-    public static final String SUCCESS = "success";
-    public static final String FAIL = "fail";
-    public static final String NOT_FOUND = "notFound";
+    // SEAT
+    public static final String SEAT_THEATER_TIME = "상영시간 아이디를 입력해 주세요.";
+    public static final String TOTAL_SEATS = "전체 좌석 수를 입력해 주세요.";
 
+    public static final List<String> SEAT_REQUIRED_LIST = Arrays.asList(
+            SEAT_THEATER_TIME,
+            TOTAL_SEATS
+    );
+
+
+
+    // NOT FOUND MESSAGE
     public static final String NOT_FOUND_MOVIE_ID = "not found movieId";
     public static final String NOT_FOUND_CINEMA_ID = "not found cinemaId";
-
     public static final String NOT_FOUND_THEATER_ID= "not found theaterId";
     public static final String NOT_FOUND_THEATER_TIME_ID = "not found theaterTime id";
-
+    public static final String NOT_FOUND_SEAT_ID = "not found seatId";
  }
